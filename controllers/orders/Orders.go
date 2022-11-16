@@ -1,4 +1,4 @@
-package customers
+package orders
 
 import (
 	model "be_dbo/models"
@@ -9,10 +9,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetCustomers(context *gin.Context) {
+func GetOrders(context *gin.Context) {
 	pagination := util.GeneratePaginationFromRequest(context)
-	var customer model.Customer
-	customerLists, err := repository.GetAllCustomer(&customer, &pagination)
+	var order model.Order
+	orderLists, err := repository.GetAllOrders(&order, &pagination)
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{
@@ -22,6 +22,6 @@ func GetCustomers(context *gin.Context) {
 
 	}
 	context.JSON(http.StatusOK, gin.H{
-		"data": customerLists,
+		"data": orderLists,
 	})
 }

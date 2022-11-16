@@ -3,6 +3,7 @@ package Routes
 import (
 	controllers "be_dbo/controllers"
 	customers "be_dbo/controllers/customers"
+	orders "be_dbo/controllers/orders"
 	"be_dbo/middlewares"
 
 	"github.com/gin-gonic/gin"
@@ -27,7 +28,16 @@ func SetupRouter() *gin.Engine {
 			customer.GET("/customer/:id", customers.FindCustomerId)
 			customer.PATCH("/customer/:id", customers.UpdateCustomer)
 			customer.DELETE("/customer/:id", customers.DeleteCustomer)
+			customer.GET("/customer/", customers.FindCustomerName)
 
+		}
+		order := api.Group("/orders").Use(middlewares.Auth())
+		{
+			order.POST("/create", orders.CreateOrder)
+			order.GET("/orders", orders.GetOrders)
+			order.GET("/order/:id", orders.FindOrderId)
+			order.PATCH("/order/:id", orders.UpdateOrder)
+			order.DELETE("/order/:id", orders.DeleteOrder)
 		}
 	}
 	return router
