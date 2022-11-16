@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"be_dbo/auth"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,7 +15,8 @@ func Auth() gin.HandlerFunc {
 			context.Abort()
 			return
 		}
-		err := auth.ValidateToken(tokenString)
+		jwtString := strings.Split(tokenString, "Bearer ")[1]
+		err := auth.ValidateToken(jwtString)
 		if err != nil {
 			context.JSON(401, gin.H{"error": err.Error()})
 			context.Abort()
